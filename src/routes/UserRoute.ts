@@ -7,4 +7,5 @@ const router = express.Router();
 router.get("/get-my-profile", UserController.getProfile)
 
 
-export default router;
+const UserRoute=router;
+export default UserRoute;

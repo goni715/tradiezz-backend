@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import morgan from "morgan";
-import UserRoute from "../src/routes/UserRoute";
+import UserRoute from "./routes/UserRoute";
 
 
 const app = express();
