@@ -1,5 +1,5 @@
 
-const LoginUserService = () => {
+const LoginUserService = async () => {
     return "Login Service";
 }
 
