@@ -26,7 +26,7 @@ const userSchema = new Schema<IUser>({
     },
     status: {
         type: String,
-        enum: ['blocked', 'unblocked'],
+        enum: ['pending', 'active', 'blocked'],
         default: 'pending'
     },
     regOtp: {

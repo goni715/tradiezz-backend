@@ -14,10 +14,21 @@ const loginUser = asyncHandler(async (req, res) => {
 })
 
 
+const loginAdmin = asyncHandler(async (req, res) => {
+    const result = await LoginUserService();
+    res.status(200).json({
+        success: true,
+        message: "Login Success",
+        data: result
+    })
+})
+
+
 
 
 const AuthController = {
-    loginUser
+    loginUser,
+    loginAdmin
 }
 
 export default AuthController;

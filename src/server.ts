@@ -1,8 +1,8 @@
 import { Server } from "http";
-import dbConnect from "./app/utils/dbConnect";
 import app from "./app";
-import config from "./app/config";
-import seedSuperAdmin from "./app/db";
+import dbConnect from "./utils/dbConnect";
+import config from "./config";
+import seedSuperAdmin from "./db";
 
 let server: Server;
 

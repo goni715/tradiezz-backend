@@ -18,6 +18,7 @@ export default {
     smtp_from: process.env.SMTP_FROM,
     super_admin_email: process.env.SUPER_ADMIN_EMAIL,
     super_admin_password: process.env.SUPER_ADMIN_PASSWORD,
+    super_admin_reg_otp: process.env.SUPER_ADMIN_REG_OTP,
     admin_default_password: process.env.ADMIN_DEFAULT_PASSWORD,
     stripe_secret_key: process.env.STRIPE_SECRET_KEY,
     frontend_url: process.env.FRONTEND_URL,
