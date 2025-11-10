@@ -14,4 +14,5 @@ router.post(
 
 
 
-export const AuthRoutes = router;
+const AuthRoute = router;
+export default AuthRoute;

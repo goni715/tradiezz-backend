@@ -5,8 +5,9 @@ import cookieParser from 'cookie-parser';
 import path from "path";
 import bodyParser from "body-parser";
 import globalErrorHandler from "./middlewares/globalErrorHandler";
-import { AuthRoutes } from "./routes/AuthRoute";
 import notFound from "./middlewares/notFound";
+import AuthRoute from "./routes/AuthRoute";
+import ContactRoute from "./routes/ContactRoute";
 
 
 const app: Application = express();
@@ -44,7 +45,7 @@ app.use(cookieParser())
 app.use(morgan('dev'))
 
 app.get('/', (req:Request, res:Response) => {
-    res.send(`TripleM Ecommerce server is running......`);
+    res.send(`Tradiezz backend server is running......`);
 });
 
 
@@ -58,7 +59,8 @@ app.use(bodyParser.json())
 
 
 //application routes
-app.use('/api/v1/auth', AuthRoutes);
+app.use('/api/v1/auth', AuthRoute);
+app.use('/api/v1/contact', ContactRoute);
 
 //serve uploads folder
 app.use("/uploads", express.static(path.join(__dirname, "../uploads",)))
