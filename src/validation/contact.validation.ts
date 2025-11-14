@@ -35,3 +35,14 @@ export const contactValidationSchema = z.object({
         .trim()
         .min(1, "message is required")
 });
+
+
+export const replyContactValidationSchema = z.object({
+    replyMessage: z
+        .string({
+            invalid_type_error: "replyMessage must be string",
+            required_error: "replyMessage is required",
+        })
+        .trim()
+        .min(1, "replyMessage is required")
+});
