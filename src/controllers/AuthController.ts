@@ -1,9 +1,19 @@
 import config from "../config";
 import LoginAdminService from "../services/auth/LoginAdminService";
 import LoginUserService from "../services/auth/LoginUserService"
+import RegisterEmployerService from "../services/auth/RegisterEmployerService";
 import asyncHandler from "../utils/asyncHandler";
 
 
+
+const registerEmployer = asyncHandler(async (req, res) => {
+    const result = await RegisterEmployerService(req.body);
+    res.status(201).json({
+        success: true,
+        message: result.message,
+        data: null
+    })
+})
 
 
 const loginUser = asyncHandler(async (req, res) => {
@@ -39,6 +49,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
 
 
 const AuthController = {
+    registerEmployer,
     loginUser,
     loginAdmin
 }

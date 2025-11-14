@@ -1,12 +1,16 @@
 import { Schema, model } from 'mongoose';
-import { IContact } from '../interfaces/contact.interface';
 import { IEmployer } from '../interfaces/employer.interface';
 
 const employerSchema = new Schema<IEmployer>({
-    userId
-    name: {
+    userId: {
+        type: Schema.Types.ObjectId,
+        required: [true, "userId is required"],
+        trim: true,
+        unique: true
+    },
+    fullName: {
         type: String,
-        required: [true, "Name is required"],
+        required: [true, "fullName is required"],
         trim: true,
         minlength: 2,
         maxlength: 100
@@ -16,38 +20,22 @@ const employerSchema = new Schema<IEmployer>({
         required: [true, "Email is required"],
         trim: true,
         lowercase: true,
+        unique: true
     },
-    subject: {
+    phone: {
         type: String,
-        required: [true, "Subject is required"],
+        required: [true, "phone is required"],
         trim: true,
-        maxlength: 150,
+        maxlength: 20
     },
-    message: {
+    profileImg: {
         type: String,
-        required: [true, "Message is required"],
-        trim: true,
-        maxlength: 1000,
-    },
-    replyMessage: {
-        type: String,
-        trim: true,
-        maxlength: 1000,
-        default: "",
-    },
-    replyAt: {
-        type: Date,
-        default: null
-    },
-    status: {
-        type: String,
-        enum: ["pending", "replied"],
-        default: "pending",
+        default: ""
     },
 }, {
     timestamps: true,
     versionKey: false
 })
 
-const EmployerModel = model<IContact>('Contact', employerSchema);
+const EmployerModel = model<IEmployer>('Employer', employerSchema);
 export default EmployerModel;
