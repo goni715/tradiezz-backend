@@ -8,7 +8,13 @@ const userSchema = new Schema<IUser>({
         required: [true, "Email is required"],
         trim: true,
         lowercase: true,
-        unique: true
+        unique: true,
+        validate: {
+            validator: function (v) {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+            },
+            message: props => `${props.value} is not a valid email address`
+        }
     },
     password: {
         type: String,

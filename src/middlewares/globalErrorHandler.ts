@@ -10,8 +10,7 @@ const globalErrorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
         success: false,
         message,
         error: {
-            statusCode,
-            message
+            statusCode
         }
     });
 }

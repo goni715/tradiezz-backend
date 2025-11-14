@@ -2,6 +2,7 @@ import config from "../config";
 import LoginAdminService from "../services/auth/LoginAdminService";
 import LoginUserService from "../services/auth/LoginUserService"
 import RegisterEmployerService from "../services/auth/RegisterEmployerService";
+import VerifyEmailService from "../services/auth/VerifyEmailService";
 import asyncHandler from "../utils/asyncHandler";
 
 
@@ -15,6 +16,15 @@ const registerEmployer = asyncHandler(async (req, res) => {
     })
 })
 
+
+const verifyEmail = asyncHandler(async (req, res) => {
+    const result = await VerifyEmailService(req.body);
+    res.status(200).json({
+        success: true,
+        message: "Email is verified successfully",
+        data: result
+    })
+})
 
 const loginUser = asyncHandler(async (req, res) => {
     const result = await LoginUserService();
@@ -50,6 +60,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
 
 const AuthController = {
     registerEmployer,
+    verifyEmail,
     loginUser,
     loginAdmin
 }

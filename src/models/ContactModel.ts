@@ -14,6 +14,12 @@ const contactSchema = new Schema<IContact>({
         required: [true, "Email is required"],
         trim: true,
         lowercase: true,
+        validate: {
+            validator: function (v) {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+            },
+            message: props => `${props.value} is not a valid email address`
+        }
     },
     subject: {
         type: String,

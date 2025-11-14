@@ -19,3 +19,23 @@ export const loginValidationSchema = z.object({
     .min(6, "Password minimum 6 characters long")
     .max(60, "Password maximum 60 characters long")
 });
+
+
+
+export const verifyOtpValidationSchema = z.object({
+  email: z
+    .string({
+      invalid_type_error: "email must be string",
+      required_error: "Email is required",
+    })
+    .trim()
+    .email({
+      message: "Invalid email address",
+    }),
+  otp: z
+    .string({
+      required_error: "Otp is required",
+    })
+    .regex(/^\d{6}$/, "Otp must be a 6-digit number")
+    .trim(),
+});
