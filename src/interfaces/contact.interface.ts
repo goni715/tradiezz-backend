@@ -7,6 +7,7 @@ export interface IContact extends Document {
   message: string;
   replyMessage?: string;
   replyAt?: Date;
+  status: 'pending' | 'replied'
 };
 
 export type TContactQuery = {

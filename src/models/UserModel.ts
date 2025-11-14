@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose';
 import { IUser } from '../interfaces/user.interface';
+import hashedPassword from '../utils/hashedPassword';
 
 const userSchema = new Schema<IUser>({
     email: {
@@ -56,6 +57,17 @@ const userSchema = new Schema<IUser>({
     timestamps: true,
     versionKey: false
 })
+
+
+
+//Hash Password before saving
+userSchema.pre("save", async function (next) {
+    // Only hash the password if it has been modified (or is new)
+    if (!this.isModified("password")) return next(); //this means 
+    this.password = await hashedPassword(this.password);
+    next();
+});
+
 
 const UserModel = model<IUser>('User', userSchema);
 export default UserModel;

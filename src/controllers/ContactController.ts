@@ -2,12 +2,13 @@ import { ContactValidFields } from "../constant/contact.constant";
 import CreateContactService from "../services/contact/CreateContactService";
 import GetContactsService from "../services/contact/GetContactsService";
 import asyncHandler from "../utils/asyncHandler";
+import pickValidFields from "../utils/pickValidFields";
 
 const createContact = asyncHandler(async (req, res) => {
     const result = await CreateContactService(req.body);
     res.status(200).json({
         success: true,
-        message: "Concact is submitted successfully",
+        message: "Contact is submitted successfully",
         data: result
     })
 })

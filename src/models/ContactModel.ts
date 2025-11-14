@@ -37,8 +37,14 @@ const contactSchema = new Schema<IContact>({
         type: Date,
         default: null
     },
+    status: {
+        type: String,
+        enum: ["pending", "replied"],
+        default: "pending",
+    },
 }, {
-    timestamps: true
+    timestamps: true,
+    versionKey: false
 })
 
 const ContactModel = model<IContact>('Contact', contactSchema);
