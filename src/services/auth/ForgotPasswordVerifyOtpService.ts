@@ -10,6 +10,16 @@ const ForgotPasswordVerifyOtpService = async (payload: IVerifyOTp) => {
     throw new CustomError(404, `Couldn't find this email address`);
   }
 
+  //check email is not verified
+  if (!user.isVerified) {
+    throw new CustomError(403, "Your account is not verified");
+  }
+
+  //check user is blocked
+  if (user.status === "blocked") {
+    throw new CustomError(403, "Your account is blocked !");
+  }
+
   //check otp doesn't exist
   const otpExist = await UserModel.findOne({ email, forgotOtp:otp, forgotOtpstatus: 0 });
   if (!otpExist) {
