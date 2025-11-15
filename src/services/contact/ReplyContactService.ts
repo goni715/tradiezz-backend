@@ -1,7 +1,7 @@
 import CustomError from "../../errors/CustomError";
 import ContactModel from "../../models/ContactModel";
+import sendReplyEmail from "../../utils/email/sendReplyEmail";
 import isObjectId from "../../utils/isObjectId";
-import sendReplyEmail from "../../utils/sendReplyEmail";
 
 const ReplyContactService = async (contactId: string, replyMessage: string) => {
   if (!isObjectId(contactId)) {

@@ -1,5 +1,5 @@
-import config from "../config";
 import nodemailer from "nodemailer";
+import config from "../../config";
 
 const sendReplyEmail = async (email: string, replyMessage: string) => {
   //transporter

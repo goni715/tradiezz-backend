@@ -1,7 +1,7 @@
-import config from "../config";
 import nodemailer from "nodemailer";
+import config from "../../config";
 
-const sendVerificationEmail = async (email: string, name: string, otp: string) => {
+const sendForgotEmail = async (EmailTo: string, otp: string) => {
   //transporter
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
@@ -12,22 +12,21 @@ const sendVerificationEmail = async (email: string, name: string, otp: string) =
       pass: config.smtp_password,
     },
   });
-                  
+
   const mailOptions = {
     from: `Tradiezz Service ${config.smtp_from}`, //sender email address//smtp-username
-    to: email, //receiver email address
-    subject: "Verify Your Account",
-    html: `
+    to: EmailTo, //receiver email address
+    subject: "Reset Password",
+     html: `
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f8fafc;">
       <!-- Header -->
       <div style="background-color: #1f2937; padding: 40px 20px; text-align: center; border-radius: 12px 12px 0 0;">
         <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 700;">Tradiezz Service</h1>
-        <p style="color: #9ca3af; margin: 8px 0 0 0; font-size: 16px;">Email Verification Required</p>
+        <p style="color: #9ca3af; margin: 8px 0 0 0; font-size: 16px;">Password Reset Request</p>
       </div>
       
       <!-- Main Content -->
       <div style="background-color: #ffffff; padding: 40px 30px; border-left: 1px solid #e5e7eb; border-right: 1px solid #e5e7eb;">
-        <h2 style="color: #1f2937; margin: 0 0 16px 0; font-size: 24px; font-weight: 600;">Hello ${name}!</h2>
         <p style="color: #6b7280; margin: 0 0 30px 0; font-size: 16px; line-height: 1.5;">We received a request to reset your password. Use the verification code below to proceed.</p>
         
         <!-- Verification Code -->
@@ -53,4 +52,4 @@ const sendVerificationEmail = async (email: string, name: string, otp: string) =
   return await transporter.sendMail(mailOptions);
 };
 
-export default sendVerificationEmail;
+export default sendForgotEmail;

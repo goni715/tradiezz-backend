@@ -3,8 +3,8 @@ import mongoose from "mongoose";
 import CustomError from "../../errors/CustomError";
 import { IRegisterEmployerPayload } from "../../interfaces/auth.interface";
 import UserModel from "../../models/UserModel";
-import sendVerificationEmail from "../../utils/sendVerificationEmail";
 import EmployerModel from "../../models/EmployerModel";
+import sendVerificationEmail from "../../utils/email/sendVerificationEmail";
 
 
 
@@ -29,7 +29,7 @@ const RegisterEmployerService = async (reqBody: IRegisterEmployerPayload) => {
             { runValidators: true }
         );
         //send verification email
-        await sendVerificationEmail(email, fullName, otp.toString());
+        await sendVerificationEmail(email, otp.toString());
 
         return {
             message: "Verification email resent. Please check your inbox."
@@ -70,7 +70,7 @@ const RegisterEmployerService = async (reqBody: IRegisterEmployerPayload) => {
         )
 
         //send verification email
-        await sendVerificationEmail(email, fullName, otp.toString());
+        await sendVerificationEmail(email, otp.toString());
 
         //transaction success
         await session.commitTransaction();

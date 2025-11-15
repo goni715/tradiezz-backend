@@ -1,7 +1,11 @@
 import config from "../config";
+import ForgotPasswordSendOtpService from "../services/auth/ForgotPasswordSendOtpService";
+import ForgotPasswordSetNewPasswordService from "../services/auth/ForgotPasswordSetNewPasswordService";
+import ForgotPasswordVerifyOtpService from "../services/auth/ForgotPasswordVerifyOtpService";
 import LoginAdminService from "../services/auth/LoginAdminService";
 import LoginUserService from "../services/auth/LoginUserService"
 import RegisterEmployerService from "../services/auth/RegisterEmployerService";
+import ResendVerificationEmailService from "../services/auth/ResendVerificationEmailService";
 import VerifyEmailService from "../services/auth/VerifyEmailService";
 import asyncHandler from "../utils/asyncHandler";
 
@@ -22,6 +26,17 @@ const verifyEmail = asyncHandler(async (req, res) => {
     res.status(200).json({
         success: true,
         message: "Email is verified successfully",
+        data: result
+    })
+})
+
+
+const resendVerificationEmail = asyncHandler(async (req, res) => {
+    const { email } = req.body;
+    const result = await ResendVerificationEmailService(email);
+    res.status(200).json({
+        success: true,
+        message: "Verification email resent. Please check your inbox.",
         data: result
     })
 })
@@ -66,13 +81,44 @@ const loginAdmin = asyncHandler(async (req, res) => {
 })
 
 
+const forgotPasswordSendOtp = asyncHandler(async (req, res) => {
+    const { email } = req.body;
+    const result = await ForgotPasswordSendOtpService(email);
+    res.status(200).json({
+        success: true,
+        message: "OTP has been sent to your email address.",
+        data: result
+    })
+})
+
+const forgotPasswordVerifyOtp = asyncHandler(async (req, res) => {
+    const result = await ForgotPasswordVerifyOtpService(req.body);
+    res.status(200).json({
+        success: true,
+        message: "OTP is verified successfully.",
+        data: result
+    })
+})
+
+const forgotPasswordSetNewPassword = asyncHandler(async (req, res) => {
+    const result = await ForgotPasswordSetNewPasswordService(req.body);
+    res.status(200).json({
+        success: true,
+        message: "Password has been reset successfully.",
+        data: result
+    })
+})
 
 
 const AuthController = {
     registerEmployer,
     verifyEmail,
+    resendVerificationEmail,
     loginUser,
-    loginAdmin
+    loginAdmin,
+    forgotPasswordSendOtp,
+    forgotPasswordVerifyOtp,
+    forgotPasswordSetNewPassword
 }
 
 export default AuthController;

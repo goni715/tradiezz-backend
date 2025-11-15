@@ -17,7 +17,7 @@ const VerifyEmailService = async (payload: IVerifyOTp) => {
   }
 
   if (user.regOtp !== otp) {
-    throw new CustomError(400, "Invalid Otp Code");
+    throw new CustomError(400, "Invalid Verification Code");
   }
 
   const otpExpired = await UserModel.findOne({
@@ -27,7 +27,7 @@ const VerifyEmailService = async (payload: IVerifyOTp) => {
   });
 
   if (!otpExpired) {
-    throw new CustomError(400, "Expired Otp Code");
+    throw new CustomError(410, "Expired Verification Code");
   }
 
   //update the user 

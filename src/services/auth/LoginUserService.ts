@@ -29,7 +29,7 @@ const LoginUserService = async (payload: ILogin) => {
     //check password
     const isPasswordMatch = await checkPassword(password, user.password);
     if (!isPasswordMatch) {
-        throw new CustomError(400, "Wrong Password");
+        throw new CustomError(403, "Wrong Password");
     }
 
     //check you are not candidate or employer
@@ -63,7 +63,6 @@ const LoginUserService = async (payload: ILogin) => {
         };
 
     }else{
-
         const employer = await EmployerModel.findOne({ email, userId: user._id });
         if(!employer){
             throw new CustomError(404, "User data not found")
