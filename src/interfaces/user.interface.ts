@@ -16,3 +16,13 @@ export interface IUser extends Document {
     forgotOtpstatus: number;
     forgotOtpExpires: Date,
 };
+
+
+export type TEmployerQuery = {
+  searchTerm?: string;
+  page?: string;
+  limit?: string;
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
+  status?: string,
+};

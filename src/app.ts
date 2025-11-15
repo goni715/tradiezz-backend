@@ -8,6 +8,7 @@ import globalErrorHandler from "./middlewares/globalErrorHandler";
 import notFound from "./middlewares/notFound";
 import AuthRoute from "./routes/AuthRoute";
 import ContactRoute from "./routes/ContactRoute";
+import UserRoute from "./routes/UserRoute";
 
 
 const app: Application = express();
@@ -60,6 +61,7 @@ app.use(bodyParser.json())
 
 //application routes
 app.use('/api/v1/auth', AuthRoute);
+app.use('/api/v1/user', UserRoute);
 app.use('/api/v1/contact', ContactRoute);
 
 //serve uploads folder

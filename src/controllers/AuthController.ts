@@ -1,5 +1,6 @@
 import config from "../config";
 import ChangePasswordService from "../services/auth/ChangePasswordService";
+import ChangeStatusService from "../services/auth/ChangeStatusService";
 import ForgotPasswordSendOtpService from "../services/auth/ForgotPasswordSendOtpService";
 import ForgotPasswordSetNewPasswordService from "../services/auth/ForgotPasswordSetNewPasswordService";
 import ForgotPasswordVerifyOtpService from "../services/auth/ForgotPasswordVerifyOtpService";
@@ -137,8 +138,19 @@ const refreshToken = asyncHandler(async (req, res) => {
     const result = await RefreshTokenService(refreshToken);
     res.status(200).json({
         success: true,
-       message: 'Access token is retrieved successfully',
+       message: "Access token refreshed successfully.",
         data: result
+    })
+})
+
+const changeStatus = asyncHandler(async (req, res) => {
+    const { userId } = req.params;
+    const { status } = req.body;
+    const result = await ChangeStatusService(userId as string, status);
+    res.status(200).json({
+        success: true,
+        message: result.message,
+        data: null
     })
 })
 
@@ -153,7 +165,8 @@ const AuthController = {
     forgotPasswordVerifyOtp,
     forgotPasswordSetNewPassword,
     changePassword,
-    refreshToken
+    refreshToken,
+    changeStatus
 }
 
 export default AuthController;

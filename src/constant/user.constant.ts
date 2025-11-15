@@ -6,3 +6,14 @@ export const UserRole = {
     admin: "admin",
     superAdmin: 'superAdmin',
 } as const;
+
+export const EmployerSearchableFields = [ 'fullName', 'email', 'phone'];
+
+export const EmployerValidFields: string[] = [
+  "searchTerm",
+  "page",
+  "limit",
+  "sortBy",
+  "sortOrder",
+  "status"
+];

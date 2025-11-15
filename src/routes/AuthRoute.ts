@@ -1,5 +1,5 @@
 import express from "express";
-import { changePasswordSchema, emailValidationSchema, forgotPasswordSetNewPassSchema, loginValidationSchema, refreshTokenValidationSchema, verifyOtpValidationSchema } from "../validation/auth.validation";
+import { changePasswordSchema, changeStatusValidationSchema, emailValidationSchema, forgotPasswordSetNewPassSchema, loginValidationSchema, refreshTokenValidationSchema, verifyOtpValidationSchema } from "../validation/auth.validation";
 import validationMiddleware from "../middlewares/validationMiddleware";
 import AuthController from "../controllers/AuthController";
 import { registerEmployerValidationSchema } from "../validation/employer.validation";
@@ -66,6 +66,13 @@ router.post(
   "/refresh-token",
   validationMiddleware(refreshTokenValidationSchema),
   AuthController.refreshToken
+);
+
+router.patch(
+  "/change-status/:userId",
+  AuthMiddleware(UserRole.superAdmin, UserRole.admin),
+  validationMiddleware(changeStatusValidationSchema),
+  AuthController.changeStatus
 );
 
 

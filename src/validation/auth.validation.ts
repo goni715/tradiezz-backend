@@ -114,3 +114,14 @@ export const refreshTokenValidationSchema = z.object({
     required_error: "Refresh token is required !",
   }),
 });
+
+export const changeStatusValidationSchema = z.object({
+  status: z
+    .string({
+      invalid_type_error: `status must be 'blocked' or 'active'`,
+      required_error: "status is required",
+    })
+    .refine((val) => ["blocked", "active"].includes(val), {
+      message: `status must be 'blocked' or 'active'`,
+    }),
+});
