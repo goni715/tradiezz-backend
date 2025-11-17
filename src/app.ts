@@ -10,6 +10,7 @@ import AuthRoute from "./routes/AuthRoute";
 import ContactRoute from "./routes/ContactRoute";
 import UserRoute from "./routes/UserRoute";
 import CategoryRoute from "./routes/CategoryRoute";
+import SubCategoryRoute from "./routes/SubCategoryRoute";
 
 
 const app: Application = express();
@@ -65,6 +66,7 @@ app.use('/api/v1/auth', AuthRoute);
 app.use('/api/v1/user', UserRoute);
 app.use('/api/v1/contact', ContactRoute);
 app.use('/api/v1/category', CategoryRoute);
+app.use('/api/v1/sub-category', SubCategoryRoute);
 
 //serve uploads folder
 app.use("/uploads", express.static(path.join(__dirname, "../uploads",)))

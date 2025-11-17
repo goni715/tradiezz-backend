@@ -1,15 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import CustomError from "../../errors/CustomError";
 import { ISubCategory } from "../../interfaces/subCategory.interface";
 import CategoryModel from "../../models/CategoryModel";
+import SubCategoryModel from "../../models/SubCategoryModel";
 import convertToSlug from "../../utils/convertToSlug";
 
 
 const CreateSubCategoryService = async (payload: ISubCategory) => {
     const { name, categoryId } = payload;
     const slug = convertToSlug(name);
-
-    return payload;
 
     //check category
     const category = await CategoryModel.findById(categoryId);
@@ -18,18 +16,17 @@ const CreateSubCategoryService = async (payload: ISubCategory) => {
     }
 
     //check category is already existed
-    const subCategory = await CategoryModel.findOne({
+    const subCategory = await SubCategoryModel.findOne({
+        categoryId,
         slug
     });
     
-
-    if (category) {
-        throw new CustomError(409, 'This category already exists.');
+    if (subCategory) {
+        throw new CustomError(409, 'This sub-category is already exists under the selected category.');
     }
 
-
-
-    const result = await CategoryModel.create({
+    const result = await SubCategoryModel.create({
+        categoryId,
         name,
         slug
     })

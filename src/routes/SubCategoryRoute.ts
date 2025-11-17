@@ -1,46 +1,30 @@
 import express from "express";
 import AuthMiddleware from "../middlewares/AuthMiddleware";
 import { UserRole } from "../constant/user.constant";
-import CategoryController from "../controllers/CategoryController";
 import validationMiddleware from "../middlewares/validationMiddleware";
-import { createCategoryValidationSchema, updateCategoryValidationSchema } from "../validation/category.validation";
-import upload from "../helper/upload";
+import { createSubCategorySchema } from "../validation/subCategory.validation";
+import SubCategoryController from "../controllers/SubCategoryController";
 
 const router = express.Router();
 
 
 router.post(
-  "/create-category",
-  upload.single("image"),
+  "/create-sub-category",
   AuthMiddleware(UserRole.admin, UserRole.superAdmin),
-  validationMiddleware(createCategoryValidationSchema),
-  CategoryController.createCategory
+  validationMiddleware(createSubCategorySchema),
+  SubCategoryController.createSubCategory
 );
 
 router.get(
-  '/get-categories',
+  '/get-sub-categories',
   AuthMiddleware(UserRole.admin, UserRole.superAdmin),
-  CategoryController.getCategories
+  SubCategoryController.getSubCategories
 );
-
 router.get(
-  '/get-category-drop-down',
-  CategoryController.getCategoryDropDown
+  '/get-sub-category-drop-down/:categoryId',
+  SubCategoryController.getSubCategoryDropDown
 );
 
-router.patch(
-  "/update-category/:categoryId",
-  upload.single("image"),
-  AuthMiddleware(UserRole.admin, UserRole.superAdmin),
-  validationMiddleware(updateCategoryValidationSchema),
-  CategoryController.updateCategory
-);
 
-router.delete(
-  "/delete-category/:categoryId",
-  AuthMiddleware(UserRole.admin, UserRole.superAdmin),
-  CategoryController.deleteCategory
-);
-
-const CategoryRoute = router;
-export default CategoryRoute;
+const SubCategoryRoute = router;
+export default SubCategoryRoute;

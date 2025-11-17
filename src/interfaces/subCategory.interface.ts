@@ -15,5 +15,6 @@ export type ISubCategoryQuery = {
   limit?: string;
   sortBy?: string;
   sortOrder?: "asc" | "desc";
+  categoryId?: string;
   status?: TSubCategoryStatus
 };
