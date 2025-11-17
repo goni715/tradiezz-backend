@@ -9,6 +9,7 @@ import notFound from "./middlewares/notFound";
 import AuthRoute from "./routes/AuthRoute";
 import ContactRoute from "./routes/ContactRoute";
 import UserRoute from "./routes/UserRoute";
+import CategoryRoute from "./routes/CategoryRoute";
 
 
 const app: Application = express();
@@ -63,6 +64,7 @@ app.use(bodyParser.json())
 app.use('/api/v1/auth', AuthRoute);
 app.use('/api/v1/user', UserRoute);
 app.use('/api/v1/contact', ContactRoute);
+app.use('/api/v1/category', CategoryRoute);
 
 //serve uploads folder
 app.use("/uploads", express.static(path.join(__dirname, "../uploads",)))
