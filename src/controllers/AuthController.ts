@@ -7,6 +7,7 @@ import ForgotPasswordVerifyOtpService from "../services/auth/ForgotPasswordVerif
 import LoginAdminService from "../services/auth/LoginAdminService";
 import LoginUserService from "../services/auth/LoginUserService"
 import RefreshTokenService from "../services/auth/RefreshTokenService";
+import RegisterCandidateService from "../services/auth/RegisterCandidateService";
 import RegisterEmployerService from "../services/auth/RegisterEmployerService";
 import ResendVerificationEmailService from "../services/auth/ResendVerificationEmailService";
 import VerifyEmailService from "../services/auth/VerifyEmailService";
@@ -19,6 +20,15 @@ const registerEmployer = asyncHandler(async (req, res) => {
     res.status(201).json({
         success: true,
         message: result.message,
+        data: null
+    })
+})
+
+const registerCandidate = asyncHandler(async (req, res) => {
+    const result = await RegisterCandidateService(req.body);
+    res.status(201).json({
+        success: true,
+        message: result + "result.message",
         data: null
     })
 })
@@ -157,6 +167,7 @@ const changeStatus = asyncHandler(async (req, res) => {
 
 const AuthController = {
     registerEmployer,
+    registerCandidate,
     verifyEmail,
     resendVerificationEmail,
     loginUser,

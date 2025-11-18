@@ -1,9 +1,16 @@
+import { ICandidate } from "./candidate.interface";
 
 export interface IRegisterEmployerPayload {
     fullName: string;
     email: string;
     phone: string;
     password: string;
+}
+
+export type IRegisterCandidatePayload = ICandidate & {
+    password: string;
+    longitude: number;
+    latitude: number;
 }
 
 export interface ILogin {

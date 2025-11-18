@@ -5,6 +5,7 @@ import AuthController from "../controllers/AuthController";
 import { registerEmployerValidationSchema } from "../validation/employer.validation";
 import AuthMiddleware from "../middlewares/AuthMiddleware";
 import { UserRole } from "../constant/user.constant";
+import { registerCandidateValidationSchema } from "../validation/candidate.validation";
 
 const router = express.Router();
 
@@ -13,6 +14,11 @@ router.post(
   "/register-employer",
   validationMiddleware(registerEmployerValidationSchema),
   AuthController.registerEmployer
+);
+router.post(
+  "/register-candidate",
+  validationMiddleware(registerCandidateValidationSchema),
+  AuthController.registerCandidate
 );
 router.post(
   "/verify-email",
