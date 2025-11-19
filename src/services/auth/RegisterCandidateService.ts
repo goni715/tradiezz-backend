@@ -2,17 +2,15 @@
 import mongoose from "mongoose";
 import CustomError from "../../errors/CustomError";
 import UserModel from "../../models/UserModel";
-import EmployerModel from "../../models/EmployerModel";
 import sendVerificationEmail from "../../utils/email/sendVerificationEmail";
 import { IRegisterCandidatePayload } from "../../interfaces/auth.interface";
 import SubCategoryModel from "../../models/SubCategoryModel";
+import CandidateModel from "../../models/CandidateModel";
 
 
 
 const RegisterCandidateService = async (reqBody: IRegisterCandidatePayload) => {
-    const { email, fullName, phone, subCategoryId, password } = reqBody;
-
-    return reqBody;
+    const { email, fullName, phone, subCategoryId, password, workRate, workType, availableDate, employmentType, longitude, latitude, address, skills, experience } = reqBody;
 
     //check email
     const existingUser = await UserModel.findOne({ email });
@@ -45,6 +43,12 @@ const RegisterCandidateService = async (reqBody: IRegisterCandidatePayload) => {
     if (!subCategory) {
         throw new CustomError(404, 'Sorry, subCategoryId not found');
     }
+
+    //location coordinates
+    const location = {
+        type: "Point",
+        coordinates: [longitude, latitude]
+    }
     
 
     //transaction & rollback
@@ -61,19 +65,29 @@ const RegisterCandidateService = async (reqBody: IRegisterCandidatePayload) => {
                 email, 
                 password,
                 regOtp: otp,
-                role: "employer"
+                role: "candidate"
             }],
             { session }
         );
 
         //create new employer
-        await EmployerModel.create(
+        await CandidateModel.create(
             [
                 {
                     userId: newUser[0]?._id,
                     email,
                     fullName,
-                    phone
+                    phone,
+                    categoryId: subCategory.categoryId,
+                    subCategoryId,
+                    workRate,
+                    workType,
+                    availableDate,
+                    employmentType,
+                    location,
+                    address,
+                    skills,
+                    experience
                 }
             ],
             { session }

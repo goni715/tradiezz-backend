@@ -28,7 +28,7 @@ const registerCandidate = asyncHandler(async (req, res) => {
     const result = await RegisterCandidateService(req.body);
     res.status(201).json({
         success: true,
-        message: result + "result.message",
+        message: result.message,
         data: null
     })
 })
