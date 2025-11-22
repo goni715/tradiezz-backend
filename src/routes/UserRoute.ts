@@ -16,9 +16,18 @@ router.get(
   UserController.getCandidates
 );
 router.get(
+  '/get-find-candidates',
+  AuthMiddleware(UserRole.employer),
+  UserController.getFindCandidates
+);
+router.get(
   '/get-single-candidate/:userId',
-  AuthMiddleware(UserRole.admin, UserRole.superAdmin),
   UserController.getSingleCandidate
+);
+router.get(
+  '/get-my-profile',
+  AuthMiddleware("admin", "superAdmin", "candidate", "employer"),
+  UserController.getMyProfile
 );
 
 

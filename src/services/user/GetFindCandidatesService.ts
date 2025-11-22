@@ -3,7 +3,7 @@ import { makeFilterQuery, makeSearchQuery } from "../../helper/QueryBuilder";
 import { TEmployerQuery } from "../../interfaces/employer.interface";
 import CandidateModel from "../../models/CandidateModel";
 
-const GetUserCandidatesService = async (query: TEmployerQuery) => {
+const GetFindCandidatesService = async (query: TEmployerQuery) => {
   const {
     searchTerm, 
     page = 1, 
@@ -43,6 +43,24 @@ const GetUserCandidatesService = async (query: TEmployerQuery) => {
         $unwind: "$user"
     },
     {
+      $lookup: {
+        from: "reviews",
+        let: { uid: "$userId" },   //$$uid // <-- variable created here
+        pipeline: [
+          { $match: { $expr: { $eq: ["$userId", "$$uid"] } } },
+          { $count: "count" },
+        ],
+        as: "reviewCount"
+      }
+    },
+    {
+      $addFields: {
+        totalReview: {
+          $ifNull: [{ $arrayElemAt: ["$reviewCount.count", 0] }, 0]
+        }
+      }
+    },
+    {
         $project: {
             _id: 0,
             userId:1,
@@ -50,9 +68,11 @@ const GetUserCandidatesService = async (query: TEmployerQuery) => {
             email:1,
             phone:1,
             profileImg:1,
-            ratings:1,
             availableDate:1,
             address:1,
+            experience:1,
+            ratings: '$ratings',
+            totalReview: '$totalReview',
             status: "$user.status",
             createdAt: "$createdAt"
         }
@@ -90,12 +110,14 @@ const GetUserCandidatesService = async (query: TEmployerQuery) => {
             fullName:1,
             email:1,
             phone:1,
+            ratings: '$ratings',
             status: "$user.status",
             createdAt: "$createdAt"
         }
     },
     {
       $match: {
+        status: "active",
         ...searchQuery, 
         ...filterQuery
       },
@@ -115,9 +137,10 @@ const GetUserCandidatesService = async (query: TEmployerQuery) => {
         },
         data: result.length > 0 ? result?.map((item) => ({
             ...item,
-            status: undefined
+            status: undefined,
+            createdAt:undefined
         })) : [],
     };
 };
 
-export default GetUserCandidatesService;
+export default GetFindCandidatesService;

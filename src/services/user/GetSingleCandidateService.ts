@@ -69,8 +69,6 @@ const GetSingleCandidateService = async (userId: string) => {
                 coordinates: "$location.coordinates",
                 ratings: "$ratings",
                 totalReview: "$totalReview",
-                status: "$user.status",
-                createdAt: "$createdAt"
             }
         },
     ])

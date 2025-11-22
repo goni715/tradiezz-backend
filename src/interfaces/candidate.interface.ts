@@ -25,5 +25,6 @@ export interface ICandidate extends Document {
     };
     address: string;
     skills: string[];
-    experience: TExperience
+    experience: TExperience,
+    isPrivate: boolean
 }

@@ -102,6 +102,10 @@ const candidateSchema = new Schema<ICandidate>({
         required: true,
         enum: ['entry', 'mid', 'senior', 'expert'],
     },
+    isPrivate: {
+        type: Boolean,
+        default: false
+    },
 }, {
     timestamps: true,
     versionKey: false

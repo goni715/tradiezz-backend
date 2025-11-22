@@ -3,9 +3,11 @@ import GetCandidatesService from "../services/user/GetCandidatesService";
 import GetEmployersService from "../services/user/GetEmployersService";
 import GetSingleCandidateService from "../services/user/GetSingleCandidateService";
 import GetUserCandidatesService from "../services/user/GetFindCandidatesService";
-import GetUserCandidates from "../services/user/GetFindCandidatesService";
 import asyncHandler from "../utils/asyncHandler";
 import pickValidFields from "../utils/pickValidFields";
+import GetFindCandidatesService from "../services/user/GetFindCandidatesService";
+import { TUserRole } from "../interfaces/user.interface";
+import GetMyProfileService from "../services/user/GetMyProfileService";
 
 
 const getEmployers = asyncHandler(async (req, res) => {
@@ -30,9 +32,9 @@ const getCandidates = asyncHandler(async (req, res) => {
     })
 })
 
-const getUserCandidates = asyncHandler(async (req, res) => {
+const getFindCandidates = asyncHandler(async (req, res) => {
     const validatedQuery = pickValidFields(req.query, UserCandidateValidFields);
-    const result = await GetUserCandidatesService(validatedQuery);
+    const result = await GetFindCandidatesService(validatedQuery);
     res.status(200).json({
         success: true,
         message: 'Candidates are retrieved successfully',
@@ -53,12 +55,24 @@ const getSingleCandidate = asyncHandler(async (req, res) => {
 })
 
 
+const getMyProfile = asyncHandler(async (req, res) => {
+    const { userId, role } = req.headers;
+    const result = await GetMyProfileService(userId as string, role as TUserRole);
+    res.status(200).json({
+        success: true,
+        message: 'My profile is retrieved successfully',
+        data: result
+    })
+})
+
+
 
 const UserController = {
     getEmployers,
     getCandidates,
-    getUserCandidates,
-    getSingleCandidate
+    getFindCandidates,
+    getSingleCandidate,
+    getMyProfile
 }
 
 export default UserController;

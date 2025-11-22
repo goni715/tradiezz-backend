@@ -6,6 +6,7 @@ import checkPassword from "../../utils/checkPassword";
 import createToken, { TExpiresIn } from "../../utils/createToken";
 import config from "../../config";
 import EmployerModel from "../../models/EmployerModel";
+import CandidateModel from "../../models/CandidateModel";
 
 const LoginUserService = async (payload: ILogin) => {
     const { email, password } = payload;
@@ -63,20 +64,20 @@ const LoginUserService = async (payload: ILogin) => {
         };
 
     }else{
-        const employer = await EmployerModel.findOne({ email, userId: user._id });
-        if(!employer){
+        const candidate = await CandidateModel.findOne({ email, userId: user._id });
+        if(!candidate){
             throw new CustomError(404, "User data not found")
         }
 
         //create accessToken
         const accessToken = createToken(
-            { userId: String(user._id), email: user.email, fullName: employer.fullName, profileImg:employer.profileImg, role: user.role },
+            { userId: String(user._id), email: user.email, fullName: candidate.fullName, profileImg:candidate.profileImg, role: user.role },
             config.jwt_access_secret as Secret,
             config.jwt_access_expires_in as TExpiresIn
         );
         //create refreshToken
         const refreshToken = createToken(
-             { userId: String(user._id), email: user.email, fullName: employer.fullName, profileImg:employer.profileImg, role: user.role },
+             { userId: String(user._id), email: user.email, fullName: candidate.fullName, profileImg:candidate.profileImg, role: user.role },
             config.jwt_refresh_secret as Secret,
             config.jwt_refresh_expires_in as TExpiresIn
         );
