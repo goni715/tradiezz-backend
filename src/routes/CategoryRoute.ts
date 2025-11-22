@@ -27,6 +27,11 @@ router.get(
   '/get-category-drop-down',
   CategoryController.getCategoryDropDown
 );
+router.get(
+  '/get-category-options',
+  AuthMiddleware("admin", "superAdmin"),
+  CategoryController.getCategoryOptions
+);
 
 router.patch(
   "/update-category/:categoryId",

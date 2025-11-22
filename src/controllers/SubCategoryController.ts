@@ -3,6 +3,7 @@ import CreateSubCategoryService from "../services/subCategory/CreateSubCategoryS
 import DeleteSubCategoryService from "../services/subCategory/DeleteSubCategoryService";
 import GetSubCategoriesService from "../services/subCategory/GetSubCategoriesService";
 import GetSubCategoryDropDownService from "../services/subCategory/GetSubCategoryDropDownService";
+import GetSubCategoryOptionsService from "../services/subCategory/GetSubCategoryOptionsService";
 import UpdateSubCategoryService from "../services/subCategory/UpdateSubCategoryService";
 import asyncHandler from "../utils/asyncHandler";
 import pickValidFields from "../utils/pickValidFields";
@@ -33,7 +34,17 @@ const getSubCategoryDropDown = asyncHandler(async (req, res) => {
     const result = await GetSubCategoryDropDownService(categoryId as string);
     res.status(200).json({
         success: true,
-        message: 'Sub-categories are retrieved successfully',
+        message: 'Sub-category drop-down are retrieved successfully',
+        data: result
+    })
+})
+
+const getSubCategoryOptions = asyncHandler(async (req, res) => {
+    const { categoryId } = req.params;
+    const result = await GetSubCategoryOptionsService(categoryId as string);
+    res.status(200).json({
+        success: true,
+        message: 'Sub-category options are retrieved successfully',
         data: result
     })
 })
@@ -63,6 +74,7 @@ const SubCategoryController = {
     createSubCategory,
     getSubCategories,
     getSubCategoryDropDown,
+    getSubCategoryOptions,
     updateSubCategory,
     deleteSubCategory
 }

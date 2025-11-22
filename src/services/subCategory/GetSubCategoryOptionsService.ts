@@ -3,7 +3,7 @@ import CategoryModel from "../../models/CategoryModel";
 import SubCategoryModel from "../../models/SubCategoryModel";
 import isNotObjectId from "../../utils/isNotObjectId";
 
-const GetSubCategoryDropDownService = async (categoryId: string) => {
+const GetSubCategoryOptionsService = async (categoryId: string) => {
     if (isNotObjectId(categoryId)) {
         throw new CustomError(400, "categoryId must be a valid ObjectId")
     }
@@ -14,8 +14,8 @@ const GetSubCategoryDropDownService = async (categoryId: string) => {
         throw new CustomError(404, "categoryId Not Found");
     }
 
-    const result = await SubCategoryModel.find({ categoryId, status: "visible" }).select('_id name').sort('-createdAt');
+    const result = await SubCategoryModel.find({ categoryId }).select('_id name').sort('-createdAt');
     return result;
 }
 
-export default GetSubCategoryDropDownService;
+export default GetSubCategoryOptionsService;

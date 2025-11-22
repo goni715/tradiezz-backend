@@ -24,6 +24,11 @@ router.get(
   '/get-sub-category-drop-down/:categoryId',
   SubCategoryController.getSubCategoryDropDown
 );
+router.get(
+  '/get-sub-category-options/:categoryId',
+   AuthMiddleware(UserRole.admin, UserRole.superAdmin),
+  SubCategoryController.getSubCategoryOptions
+);
 router.patch(
   "/update-sub-category/:subCategoryId",
   AuthMiddleware(UserRole.admin, UserRole.superAdmin),

@@ -1,11 +1,13 @@
 import { CategoryValidFields } from "../constant/category.constant";
 import CreateCategoryService from "../services/category/CreateCategoryService";
 import DeleteCategoryService from "../services/category/DeleteCategoryService";
+import GetAdminCategoryDropDownService from "../services/category/GetCategoryOptionsService";
 import GetCategoriesService from "../services/category/GetCategoriesService";
 import GetCategoryDropDownService from "../services/category/GetCategoryDropDownService";
 import UpdateCategoryService from "../services/category/UpdateCategoryService";
 import asyncHandler from "../utils/asyncHandler";
 import pickValidFields from "../utils/pickValidFields";
+import GetCategoryOptionsService from "../services/category/GetCategoryOptionsService";
 
 
 const createCategory = asyncHandler(async (req, res) => {
@@ -32,7 +34,16 @@ const getCategoryDropDown = asyncHandler(async (req, res) => {
     const result = await GetCategoryDropDownService();
     res.status(200).json({
         success: true,
-        message: 'Categories are retrieved successfully',
+        message: 'Category drop-down are retrieved successfully',
+        data: result
+    })
+})
+
+const getCategoryOptions = asyncHandler(async (req, res) => {
+    const result = await GetCategoryOptionsService();
+    res.status(200).json({
+        success: true,
+        message: 'Category options retrieved successfully',
         data: result
     })
 })
@@ -62,6 +73,7 @@ const CategoryController = {
     createCategory,
     getCategories,
     getCategoryDropDown,
+    getCategoryOptions,
     updateCategory,
     deleteCategory
 }
