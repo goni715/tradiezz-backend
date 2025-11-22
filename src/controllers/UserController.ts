@@ -34,8 +34,9 @@ const getCandidates = asyncHandler(async (req, res) => {
 })
 
 const getFindCandidates = asyncHandler(async (req, res) => {
+    const { userId:loginEmployerUserId } = req.headers;
     const validatedQuery = pickValidFields(req.query, UserCandidateValidFields);
-    const result = await GetFindCandidatesService(validatedQuery);
+    const result = await GetFindCandidatesService(loginEmployerUserId as string, validatedQuery);
     res.status(200).json({
         success: true,
         message: 'Candidates are retrieved successfully',

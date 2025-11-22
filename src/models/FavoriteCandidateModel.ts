@@ -19,5 +19,5 @@ const favoriteCandidateSchema = new Schema<IFavoriteCandidate>({
 );
 
 
-const FavoriteCandidateModel = model<IFavoriteCandidate>("FavouriteCandidate", favoriteCandidateSchema);
+const FavoriteCandidateModel = model<IFavoriteCandidate>("FavoriteCandidate", favoriteCandidateSchema);
 export default FavoriteCandidateModel;

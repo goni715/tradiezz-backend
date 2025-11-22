@@ -1,9 +1,10 @@
+import { Types } from "mongoose";
 import { EmployerSearchableFields } from "../../constant/user.constant";
 import { makeFilterQuery, makeSearchQuery } from "../../helper/QueryBuilder";
 import { TEmployerQuery } from "../../interfaces/employer.interface";
 import CandidateModel from "../../models/CandidateModel";
 
-const GetFindCandidatesService = async (query: TEmployerQuery) => {
+const GetFindCandidatesService = async (loginEmployerUserId: string, query: TEmployerQuery) => {
   const {
     searchTerm, 
     page = 1, 
@@ -54,9 +55,31 @@ const GetFindCandidatesService = async (query: TEmployerQuery) => {
       }
     },
     {
+      $lookup: {
+        from: "favoritecandidates",
+        let: { candidateUserId: "$userId" }, 
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  { $eq: ["$candidateUserId", "$$candidateUserId"] },
+                  { $eq: ["$employerUserId", new Types.ObjectId(loginEmployerUserId)] }
+                ]
+              }
+            }
+          }
+        ],
+        as: "favorites",
+      }
+    },
+    {
       $addFields: {
         totalReview: {
           $ifNull: [{ $arrayElemAt: ["$reviewCount.count", 0] }, 0]
+        },
+        isFavorite: {
+          $cond: [{ $gt: [{ $size: "$favorites" }, 0] }, true, false],
         }
       }
     },
@@ -74,6 +97,7 @@ const GetFindCandidatesService = async (query: TEmployerQuery) => {
             isPrivate: 1,
             ratings: '$ratings',
             totalReview: '$totalReview',
+            isFavorite: "$isFavorite",
             status: "$user.status",
             createdAt: "$createdAt"
         }
