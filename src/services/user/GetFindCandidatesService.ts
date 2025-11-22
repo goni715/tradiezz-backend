@@ -71,6 +71,7 @@ const GetFindCandidatesService = async (query: TEmployerQuery) => {
             availableDate:1,
             address:1,
             experience:1,
+            isPrivate: 1,
             ratings: '$ratings',
             totalReview: '$totalReview',
             status: "$user.status",
@@ -138,7 +139,8 @@ const GetFindCandidatesService = async (query: TEmployerQuery) => {
         data: result.length > 0 ? result?.map((item) => ({
             ...item,
             status: undefined,
-            createdAt:undefined
+            createdAt:undefined,
+            phone: undefined
         })) : [],
     };
 };
