@@ -77,6 +77,7 @@ const GetMyProfileService = async (userId: string, role: TUserRole) => {
                     coordinates: "$location.coordinates",
                     ratings: "$ratings",
                     totalReview: "$totalReview",
+                    isPrivate: "$isPrivate"
                 }
             },
         ]);

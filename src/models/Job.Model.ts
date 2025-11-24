@@ -1,0 +1,89 @@
+import { model, Schema } from "mongoose";
+import { IJob } from "../interfaces/job.interface";
+
+
+const jobSchema = new Schema<IJob>({
+    title: {
+        type: String,
+        required: [true, 'title is required'],
+        trim: true
+    },
+    categoryId: {
+        type: Schema.Types.ObjectId,
+        required: [true, "categoryId is required"],
+        trim: true,
+        ref: "Category"
+    },
+    jobType: {
+        type: String,
+        required: true,
+        enum: ['full_time', 'part_time', 'freelance', 'contact'],
+    },
+    experience: {
+        type: String,
+        required: true,
+        enum: ['apprentice', 'newly_qualified', '1_3_years', '3_5_years', '5_years_plus', 'n/a'],
+    },
+    rateType: {
+        type: String,
+        required: true,
+        enum: ['hourly', 'daily', 'weekly', 'monthly', 'annual'],
+    },
+    startDate: {
+        type: Date,
+        required: true,
+    },
+    endDate: {
+        type: Date,
+        default: null
+    },
+    skills: {
+        type: [String],
+        required: true,
+        validate: {
+            validator: (v: string[]) => v.length > 0,
+            message: "At least one skill is required"
+        }
+    },
+    benefits: {
+        type: String,
+        default: ""
+    },
+    minRange: {
+        type: Number,
+        required: true,
+        min: [1, "minimum range 1"]
+    },
+    maxRange: {
+        type: Number,
+        required: true,
+        min: [1, "maximum range minimum 1"]
+    },
+    location: {
+        type: {
+            type: String,
+            enum: ['Point'], // 'type' must be "Point"
+            required: true,
+        },
+        coordinates: {
+            type: [Number], // [longitude, latitude]
+            required: true,
+        },
+    },
+    address: {
+        type: String,
+        required: true,
+    },
+    postalCode: {
+        type: String,
+        required: true,
+    },
+    description: {
+        type: String,
+        required: true,
+    },
+})
+
+
+const JobModel = model<IJob>('Job', jobSchema);
+export default JobModel;
