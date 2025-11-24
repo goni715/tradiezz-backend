@@ -37,6 +37,10 @@ const jobSchema = new Schema<IJob>({
         type: Date,
         default: null
     },
+    deadline: {
+        type: Date,
+        required: true
+    },
     skills: {
         type: [String],
         required: true,
@@ -82,6 +86,14 @@ const jobSchema = new Schema<IJob>({
         type: String,
         required: true,
     },
+    status: {
+        type: String,
+        enum: ['visible', 'hidden'],
+        default: "visible"
+    },
+}, {
+    versionKey: false,
+    timestamps: true
 })
 
 

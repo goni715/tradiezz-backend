@@ -1,18 +1,21 @@
-import { Types } from "mongoose";
+import { Document, Types } from "mongoose";
 
 type TJobType = 'full_time' | 'part_time' | 'freelance' | 'contact';
+type TJobExperience = 'apprentice' | 'newly_qualified' | '1_3_years' | '3_5_years' | '5_years_plus' | 'n/a';
+type TJobRateType = 'hourly' | 'daily' | 'weekly' | 'monthly' | 'annual';
 
 
-export interface IJob {
+export interface IJob extends Document{
     title: string;
     categoryId: Types.ObjectId;
     jobType: TJobType;
-    experience: 'apprentice' | 'newly_qualified' | '1_3_years' | '3_5_years' | '5_years_plus' | 'n/a';
+    experience: TJobExperience;
     startDate: Date;
     endDate?: Date;
+    deadline: Date;
     skills: string[];
     benefits?: string;
-    rateType: 'hourly' | 'daily' | 'weekly' | 'monthly' | 'annual';
+    rateType: TJobRateType;
     minRange: number;
     maxRange: number;
     location: {
@@ -22,4 +25,31 @@ export interface IJob {
     address: string;
     postalCode: string;
     description: string;
+    status: 'visible' | 'hidden';
+}
+
+
+export interface IJobPayload{
+    title: string;
+    categoryId: Types.ObjectId;
+    jobType: TJobType;
+    experience: TJobExperience;
+    startDate: Date;
+    endDate?: Date;
+    deadline: Date;
+    skills: string[];
+    benefits?: string;
+    rateType: TJobRateType;
+    minRange: number;
+    maxRange: number;
+    location: {
+        type: 'Point';
+        coordinates: [number, number]; // [longitude, latitude]
+    };
+    longitude: number;
+    latitude: number;
+    address: string;
+    postalCode: string;
+    description: string;
+    status: 'visible' | 'hidden';
 }
