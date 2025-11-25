@@ -1,7 +1,11 @@
 import { JobValidFields } from "../constant/job.constant";
 import CreateJobService from "../services/job/CreateJobService";
 import GetCandidateJobsService from "../services/job/GetCandidateJobsService";
+import GetJobsService from "../services/job/GetJobsService";
 import GetMyJobsService from "../services/job/GetMyJobsService";
+import GetMySingleJobService from "../services/job/GetMySingleJobService";
+import GetSingleJobService from "../services/job/GetSingleJobService";
+import UpdateJobStatusService from "../services/job/UpdateJobStatusService";
 import UpdateMyJobService from "../services/job/UpdateMyJobService";
 import asyncHandler from "../utils/asyncHandler";
 import pickValidFields from "../utils/pickValidFields";
@@ -41,6 +45,17 @@ const getCandidateJobs = asyncHandler(async (req, res) => {
     })
 })
 
+const getJobs = asyncHandler(async (req, res) => {
+    const validatedQuery = pickValidFields(req.query, JobValidFields);
+    const result = await GetJobsService(validatedQuery);
+    res.status(200).json({
+        success: true,
+        message: "Jobs are retrieved successfully",
+        meta: result.meta,
+        data: result.data
+    })
+})
+
 
 const updateMyJob = asyncHandler(async (req, res) => {
     const { userId } = req.headers;
@@ -52,13 +67,47 @@ const updateMyJob = asyncHandler(async (req, res) => {
         data: result
     })
 })
+const updateJobStatus = asyncHandler(async (req, res) => {
+    const { jobId } = req.params;
+    const result = await UpdateJobStatusService(jobId as string, req.body);
+    res.status(200).json({
+        success: true,
+        message: 'Job is updated successfully',
+        data: result
+    })
+})
 
+
+const getMySingleJob = asyncHandler(async (req, res) => {
+    const { userId } = req.headers;
+    const { jobId } = req.params;
+    const result = await GetMySingleJobService(userId as string, jobId as string);
+    res.status(200).json({
+        success: true,
+        message: "Job is retrieved successfully",
+        data: result
+    })
+})
+
+const getSingleJob = asyncHandler(async (req, res) => {
+    const { jobId } = req.params;
+    const result = await GetSingleJobService(jobId as string);
+    res.status(200).json({
+        success: true,
+        message: "Job is retrieved successfully",
+        data: result
+    })
+})
 
 const JobController = {
     createJob,
     getMyJobs,
     getCandidateJobs,
-    updateMyJob
+    getJobs,
+    updateMyJob,
+    getMySingleJob,
+    getSingleJob,
+    updateJobStatus
 }
 
 export default JobController;

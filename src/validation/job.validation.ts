@@ -509,6 +509,14 @@ export const updateJobValidationSchema = z.object({
         .min(1, "description is required")
         .trim()
         .optional(),
+    status: z
+        .string({
+            invalid_type_error: "status must be a valid string value.",
+        })
+        .refine((val) => ['visible', 'hidden'].includes(val), {
+            message: "status must be one of: 'visible', 'hidden'",
+        })
+        .optional(),
 })
     .superRefine((values, ctx) => {
         const { startDate, endDate, minRange, maxRange, longitude, latitude, address, postalCode } = values;
@@ -582,3 +590,16 @@ export const updateJobValidationSchema = z.object({
             }
         }
     });
+
+
+export const updateJobStatusSchema = z.object({
+    status: z
+        .string({
+            invalid_type_error: "status must be a valid string value.",
+            required_error: 'status value is required'
+        })
+        .min(1, 'status value is required')
+        .refine((val) => ['visible', 'hidden'].includes(val), {
+            message: "status must be one of: 'visible', 'hidden'",
+        })
+})

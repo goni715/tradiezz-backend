@@ -1,8 +1,9 @@
 import express from "express";
 import validationMiddleware from "../middlewares/validationMiddleware";
 import AuthMiddleware from "../middlewares/AuthMiddleware";
-import { createJobValidationSchema, updateJobValidationSchema } from "../validation/job.validation";
+import { createJobValidationSchema, updateJobStatusSchema, updateJobValidationSchema } from "../validation/job.validation";
 import JobController from "../controllers/JobController";
+import { UserRole } from "../constant/user.constant";
 
 const router = express.Router();
 
@@ -22,11 +23,32 @@ router.get(
   "/get-candidate-jobs",
   JobController.getCandidateJobs
 );
+router.get(
+  "/get-jobs",
+  AuthMiddleware(UserRole.admin, UserRole.superAdmin),
+  JobController.getJobs
+);
 router.patch(
   "/update-my-job/:jobId",
   AuthMiddleware('employer'),
   validationMiddleware(updateJobValidationSchema),
   JobController.updateMyJob
+);
+router.patch(
+  "/update-job-status/:jobId",
+  AuthMiddleware('admin', 'superAdmin'),
+  validationMiddleware(updateJobStatusSchema),
+  JobController.updateJobStatus
+);
+router.get(
+  "/get-my-single-job/:jobId",
+  AuthMiddleware('employer'),
+  JobController.getMySingleJob
+);
+router.get(
+  "/get-single-job/:jobId",
+  AuthMiddleware(UserRole.admin, UserRole.superAdmin),
+  JobController.getSingleJob
 );
 
 

@@ -2,10 +2,15 @@ import CustomError from "../../errors/CustomError";
 import { IJobPayload } from "../../interfaces/job.interface";
 import CategoryModel from "../../models/CategoryModel";
 import JobModel from "../../models/Job.Model";
+import isNotObjectId from "../../utils/isNotObjectId";
 
 
 const UpdateMyJobService = async (loginUserId: string, jobId: string, payload: Partial<IJobPayload>) => {
     const { categoryId, longitude, latitude, maxRange, minRange, startDate, endDate } = payload;
+
+    if (isNotObjectId(jobId)) {
+        throw new CustomError(400, "jobId must be a valid ObjectId")
+    }
 
     //check job
     const job = await JobModel.findOne({ userId: loginUserId, _id: jobId });
