@@ -5,6 +5,7 @@ export interface IBlog extends Document {
     categoryId: Types.ObjectId;
     title: string;
     description: string;
+    image: string;
     view: number;
     status: 'visible' | 'hidden'
 }

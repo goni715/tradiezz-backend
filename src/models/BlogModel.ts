@@ -19,6 +19,11 @@ const blogSchema = new Schema<IBlog>({
         required: true,
         trim: true,
     },
+    image: {
+        type: String,
+        required: true,
+        trim: true,
+    },
     view: {
         type: Number,
         trim:true,
