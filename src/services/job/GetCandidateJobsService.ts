@@ -45,6 +45,11 @@ const GetCandidateJobsService = async (query: TJobQuery) => {
 
     const result = await JobModel.aggregate([
         {
+            $match: {
+                status: 'visible'
+            }
+        },
+        {
             $lookup: {
                 from: "categories",
                 localField: "categoryId",
@@ -70,7 +75,6 @@ const GetCandidateJobsService = async (query: TJobQuery) => {
                 experience: 1,
                 jobType:1,
                 rateType:1,
-                status: '$status',
                 createdAt: "$createdAt",
                 updatedAt: "$updatedAt"
             }
@@ -89,6 +93,11 @@ const GetCandidateJobsService = async (query: TJobQuery) => {
 
     // total count
     const totalCountResult = await JobModel.aggregate([
+        {
+            $match: {
+                status: 'visible'
+            }
+        },
         {
             $lookup: {
                 from: "categories",
@@ -115,7 +124,6 @@ const GetCandidateJobsService = async (query: TJobQuery) => {
                 experience: 1,
                 jobType: 1,
                 rateType: 1,
-                status: '$status',
                 createdAt: "$createdAt",
                 updatedAt: "$updatedAt"
             }

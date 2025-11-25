@@ -8,14 +8,14 @@ import { addRemoveFavouriteCandidateSchema } from '../validation/favoriteCandida
 const router = express.Router();
 
 router.post(
-  '/add-remove-favourite-candidate',
+  '/add-remove-favorite-candidate',
   AuthMiddleware(UserRole.employer),
   validationMiddleware(addRemoveFavouriteCandidateSchema),
   FavoriteCandidateController.addRemoveFavoriteCandidate
 );
 
 router.get(
-  '/get-favourite-candidates', 
+  '/get-favorite-candidates', 
   AuthMiddleware(UserRole.employer),
   FavoriteCandidateController.getFavoriteCandidates
 );
