@@ -16,6 +16,7 @@ import JobRoute from "./routes/JobRoute";
 import FavoriteJobRoute from "./routes/FavoriteJobRoute";
 import BlogCategoryRoute from "./routes/BlogCategoryRoute";
 import BlogRoute from "./routes/BlogRoute";
+import PolicyRoute from "./routes/PolicyRoute";
 
 
 const app: Application = express();
@@ -77,6 +78,7 @@ app.use('/api/v1/favorite-candidate', FavoriteCandidateRoute);
 app.use('/api/v1/favorite-job', FavoriteJobRoute);
 app.use('/api/v1/job', JobRoute);
 app.use('/api/v1/blog', BlogRoute);
+app.use('/api/v1/policy', PolicyRoute);
 
 //serve uploads folder
 app.use("/uploads", express.static(path.join(__dirname, "../uploads",)))
