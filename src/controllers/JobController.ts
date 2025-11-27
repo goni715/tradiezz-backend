@@ -1,5 +1,7 @@
 import { JobValidFields } from "../constant/job.constant";
 import CreateJobService from "../services/job/CreateJobService";
+import DeleteJobService from "../services/job/DeleteJobService";
+import DeleteMyJobService from "../services/job/DeleteMyJobService";
 import GetCandidateJobsService from "../services/job/GetCandidateJobsService";
 import GetJobsService from "../services/job/GetJobsService";
 import GetMyJobsService from "../services/job/GetMyJobsService";
@@ -99,6 +101,27 @@ const getSingleJob = asyncHandler(async (req, res) => {
     })
 })
 
+const deleteMyJob = asyncHandler(async (req, res) => {
+    const { userId } = req.headers;
+    const { jobId } = req.params;
+    const result = await DeleteMyJobService(userId as string, jobId as string);
+    res.status(200).json({
+        success: true,
+        message: 'Job is deleted successfully',
+        data: result
+    })
+})
+
+const deleteJob = asyncHandler(async (req, res) => {
+    const { jobId } = req.params;
+    const result = await DeleteJobService(jobId as string);
+    res.status(200).json({
+        success: true,
+        message: 'Job is deleted successfully',
+        data: result
+    })
+})
+
 const JobController = {
     createJob,
     getMyJobs,
@@ -107,7 +130,9 @@ const JobController = {
     updateMyJob,
     getMySingleJob,
     getSingleJob,
-    updateJobStatus
+    updateJobStatus,
+    deleteMyJob,
+    deleteJob
 }
 
 export default JobController;

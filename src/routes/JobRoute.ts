@@ -50,7 +50,16 @@ router.get(
   AuthMiddleware(UserRole.admin, UserRole.superAdmin),
   JobController.getSingleJob
 );
-
+router.delete(
+  "/delete-my-job/:jobId",
+  AuthMiddleware('employer'),
+  JobController.deleteMyJob
+);
+router.delete(
+  "/delete-job/:jobId",
+  AuthMiddleware('admin', 'superAdmin'),
+  JobController.deleteJob
+);
 
 const JobRoute = router;
 export default JobRoute;
