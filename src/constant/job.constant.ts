@@ -2,6 +2,9 @@ export const JobSearchableFields = ['title', 'address', 'postalCode', 'category'
 
 export const JobValidFields: string[] = [
     "searchTerm",
+    "searchByTitle",
+    "searchByLocation",
+    "searchByPostalCode",
     "page",
     "limit",
     "sortBy",

@@ -39,12 +39,12 @@ const GetMySingleJobService = async (loginUserId: string, jobId: string) => {
                 deadline: 1,
                 minRange: 1,
                 maxRange: 1,
-                address: 1,
                 postalCode: 1,
                 experience: 1,
                 jobType:1,
                 rateType:1,
                 description:1,
+                address: "$address",
                 coordinates: "$location.coordinates",
                 status: '$status',
                 createdAt: "$createdAt",
@@ -53,7 +53,11 @@ const GetMySingleJobService = async (loginUserId: string, jobId: string) => {
         }
     ])
     
-    return result;
+    if (result.length === 0) {
+        throw new CustomError(404, 'jobId not found');
+    }
+
+    return result[0]
 }
 
 export default GetMySingleJobService;
