@@ -8,7 +8,23 @@ const GetSingleCandidateService = async (userId: string) => {
         {
             $match: {
                 userId: new Types.ObjectId(userId),
-                isPrivate: true
+                isPrivate: false,
+            }
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "userId",
+                foreignField: "_id",
+                as: "user"
+            }
+        },
+        {
+            $unwind: "$user"
+        },
+        {
+            $match: {
+                "user.status": "active" //filter by status
             }
         },
         {
@@ -60,14 +76,14 @@ const GetSingleCandidateService = async (userId: string) => {
                 phone: 1,
                 profileImg: 1,
                 availableDate: 1,
-                workRate:1,
-                workType:1,
-                employmentType:1,
-                skills:1,
-                experience:1,
+                workRate: 1,
+                workType: 1,
+                employmentType: 1,
+                skills: 1,
+                experience: 1,
                 category: "$category.name",
                 subCategory: "$subcategory.name",
-                address:"$address",
+                address: "$address",
                 coordinates: "$location.coordinates",
                 ratings: "$ratings",
                 totalReview: "$totalReview",
@@ -75,7 +91,7 @@ const GetSingleCandidateService = async (userId: string) => {
         },
     ])
 
-    if(result.length===0){
+    if (result.length === 0) {
         throw new CustomError(404, "Candidate not found or profile is private/locked");
     }
 

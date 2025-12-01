@@ -5,14 +5,14 @@ import FavoriteCandidateModel from "../../models/FavoriteCandidateModel";
 import { TFavoriteCandidateQuery } from "../../interfaces/favouriteCandidate.interface";
 
 const GetFavoriteCandidateService = async (loginEmployerUserId: string, query: TFavoriteCandidateQuery) => {
-    
+
   // 1. Extract query parameters
   const {
-    searchTerm, 
-    page = 1, 
-    limit = 10, 
+    searchTerm,
+    page = 1,
+    limit = 10,
     sortOrder = "desc",
-    sortBy = "createdAt", 
+    sortBy = "createdAt",
     ...filters // Any additional filters
   } = query;
 
@@ -25,9 +25,9 @@ const GetFavoriteCandidateService = async (loginEmployerUserId: string, query: T
 
   //4. setup searching
   let searchQuery = {};
-   if (searchTerm) {
-     searchQuery = makeSearchQuery(searchTerm, FavouriteCandidateSearchFields);
-   }
+  if (searchTerm) {
+    searchQuery = makeSearchQuery(searchTerm, FavouriteCandidateSearchFields);
+  }
 
 
 
@@ -37,7 +37,7 @@ const GetFavoriteCandidateService = async (loginEmployerUserId: string, query: T
     filterQuery = makeFilterQuery(filters);
   }
 
-  
+
 
   const result = await FavoriteCandidateModel.aggregate([
     {
@@ -55,9 +55,55 @@ const GetFavoriteCandidateService = async (loginEmployerUserId: string, query: T
       $unwind: "$candidate"
     },
     {
+      $lookup: {
+        from: "users",
+        localField: "candidateUserId",
+        foreignField: "_id",
+        as: "user"
+      }
+    },
+    {
+      $unwind: "$user"
+    },
+    {
+      $lookup: {
+        from: "reviews",
+        let: { uid: "$userId" },   //$$uid // <-- variable created here
+        pipeline: [
+          { $match: { $expr: { $eq: ["$userId", "$$uid"] } } },
+          { $count: "count" },
+        ],
+        as: "reviewCount"
+      }
+    },
+    {
+      $lookup: {
+        from: "favoritecandidates",
+        let: { candidateUserId: "$candidateUserId" },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  { $eq: ["$candidateUserId", "$$candidateUserId"] },
+                  { $eq: ["$employerUserId", new Types.ObjectId(loginEmployerUserId)] }
+                ]
+              }
+            }
+          }
+        ],
+        as: "favorites",
+      }
+    },
+    {
       $addFields: {
-        isFavorite: true
-      },
+        totalReview: {
+          $ifNull: [{ $arrayElemAt: ["$reviewCount.count", 0] }, 0]
+        },
+        isFavorite: {
+          $cond: [{ $gt: [{ $size: "$favorites" }, 0] }, true, false],
+        }
+      }
     },
     { $sort: { [sortBy]: sortDirection } },
     {
@@ -65,14 +111,22 @@ const GetFavoriteCandidateService = async (loginEmployerUserId: string, query: T
         _id: 0,
         userId: "$candidateUserId",
         fullName: "$candidate.fullName",
+        profileImg: "$candidate.profileImg",
         email: "$candidate.email",
         phone: "$candidate.phone",
+        availableDate: "$candidate.availableDate",
+        address: "$candidate.address",
+        experience: "$candidate.experience",
         isPrivate: "$candidate.isPrivate",
-        isFavorite: "$isFavorite"
+        isFavorite: "$isFavorite",
+        ratings: '$candidate.ratings',
+        status: "$user.status",
+        totalReview: '$totalReview',
       }
     },
     {
       $match: {
+        status: "active",
         ...searchQuery,
         ...filterQuery
       }
@@ -82,7 +136,7 @@ const GetFavoriteCandidateService = async (loginEmployerUserId: string, query: T
   ]);
 
 
-    //count total for pagination
+  //count total for pagination
   const totalResultCount = await FavoriteCandidateModel.aggregate([
     {
       $match: { employerUserId: new Types.ObjectId(loginEmployerUserId) }
@@ -99,23 +153,77 @@ const GetFavoriteCandidateService = async (loginEmployerUserId: string, query: T
       $unwind: "$candidate"
     },
     {
+      $lookup: {
+        from: "users",
+        localField: "candidateUserId",
+        foreignField: "_id",
+        as: "user"
+      }
+    },
+    {
+      $unwind: "$user"
+    },
+    {
+      $lookup: {
+        from: "reviews",
+        let: { uid: "$userId" },   //$$uid // <-- variable created here
+        pipeline: [
+          { $match: { $expr: { $eq: ["$userId", "$$uid"] } } },
+          { $count: "count" },
+        ],
+        as: "reviewCount"
+      }
+    },
+    {
+      $lookup: {
+        from: "favoritecandidates",
+        let: { candidateUserId: "$candidateUserId" },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  { $eq: ["$candidateUserId", "$$candidateUserId"] },
+                  { $eq: ["$employerUserId", new Types.ObjectId(loginEmployerUserId)] }
+                ]
+              }
+            }
+          }
+        ],
+        as: "favorites",
+      }
+    },
+    {
       $addFields: {
-        isFavorite: true
-      },
+        totalReview: {
+          $ifNull: [{ $arrayElemAt: ["$reviewCount.count", 0] }, 0]
+        },
+        isFavorite: {
+          $cond: [{ $gt: [{ $size: "$favorites" }, 0] }, true, false],
+        }
+      }
     },
     {
       $project: {
         _id: 0,
         userId: "$candidateUserId",
         fullName: "$candidate.fullName",
+        profileImg: "$candidate.profileImg",
         email: "$candidate.email",
         phone: "$candidate.phone",
+        availableDate: "$candidate.availableDate",
+        address: "$candidate.address",
+        experience: "$candidate.experience",
         isPrivate: "$candidate.isPrivate",
-        isFavorite: "$isFavorite"
+        isFavorite: "$isFavorite",
+        ratings: '$candidate.ratings',
+        totalReview: '$totalReview',
+        status: "$user.status",
       }
     },
     {
       $match: {
+        status: "active",
         ...searchQuery,
         ...filterQuery
       }
@@ -124,20 +232,24 @@ const GetFavoriteCandidateService = async (loginEmployerUserId: string, query: T
   ]);
 
 
-    const totalCount = totalResultCount[0]?.totalCount || 0;
-    const totalPages = Math.ceil(totalCount / Number(limit));
+  const totalCount = totalResultCount[0]?.totalCount || 0;
+  const totalPages = Math.ceil(totalCount / Number(limit));
 
 
-    return {
-      meta: {
-        page: Number(page), //currentPage
-        limit: Number(limit),
-        totalPages,
-        total: totalCount,
-      },
-      data: result,
-    };
-    
+  return {
+    meta: {
+      page: Number(page), //currentPage
+      limit: Number(limit),
+      totalPages,
+      total: totalCount,
+    },
+    data: result.length > 0 ? result?.map((item) => ({
+      ...item,
+      status: undefined,
+      phone: undefined
+    })) : [],
+  };
+
 }
 
 

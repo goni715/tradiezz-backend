@@ -11,6 +11,20 @@ const CreateUpdatePolicyService = async (payload: IPolicy) => {
       { content: payload.content},
       { runValidators: true }
     );
+
+    //  const res = await fetch("http://localhost:3000/api/revalidate", {
+    //         method: "POST",
+    //         headers: {
+    //           "Content-Type": "application/json"
+    //         },
+    //         body: JSON.stringify({
+    //           tag: "policy",
+    //           secret: "my-super-secret"
+    //         })
+    //       });
+
+    //       const result2 = await res.json();
+    //       console.log(result2)
     return result;
   }
 

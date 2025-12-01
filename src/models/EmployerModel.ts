@@ -43,6 +43,28 @@ const employerSchema = new Schema<IEmployer>({
         type: Number,
         default: 0
     },
+    socialMedia: {
+        website: {
+            type: String,
+            trim: true,
+            default: ""
+        },
+        facebook: {
+            type: String,
+            trim: true,
+            default: ""
+        },
+        linkedin: {
+            type: String,
+            trim: true,
+            default: ""
+        },
+        instagram: {
+            type: String,
+            trim: true,
+            default: ""
+        },
+    }
 }, {
     timestamps: true,
     versionKey: false
