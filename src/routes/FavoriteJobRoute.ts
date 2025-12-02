@@ -19,6 +19,11 @@ router.get(
   AuthMiddleware(UserRole.candidate),
   FavoriteJobController.getFavoriteJobs
 );
+router.get(
+  '/get-favorite-job-id-list', 
+  AuthMiddleware(UserRole.candidate),
+  FavoriteJobController.getFavoriteJobIdList
+);
 
 
 const FavoriteJobRoute = router;

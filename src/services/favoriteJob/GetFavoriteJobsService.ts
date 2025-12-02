@@ -69,6 +69,8 @@ const GetFavoriteJobsService = async (loginCandidateUserId: string, query: TFavo
         },
        {
             $project: {
+                _id:0,
+                jobId: "$jobId",
                 title: "$job.title",
                 category: "$category.name",
                 startDate: "$job.startDate",

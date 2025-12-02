@@ -1,5 +1,6 @@
 import { FavoriteJobValidFields } from "../constant/favoriteJob.constant";
 import AddRemoveFavoriteJobService from "../services/favoriteJob/AddRemoveFavoriteJobService";
+import GetFavoriteJobIdListService from "../services/favoriteJob/GetFavoriteJobIdListService";
 import GetFavoriteJobsService from "../services/favoriteJob/GetFavoriteJobsService";
 import asyncHandler from "../utils/asyncHandler";
 import pickValidFields from "../utils/pickValidFields";
@@ -28,9 +29,20 @@ const getFavoriteJobs= asyncHandler(async (req, res) => {
     })
 })
 
+const getFavoriteJobIdList = asyncHandler(async (req, res) => {
+    const { userId:loginCandidateUserId } = req.headers;
+    const result = await GetFavoriteJobIdListService(loginCandidateUserId as string);
+    res.status(200).json({
+        success: true,
+        message: 'Favorite job id list are successfully',
+        data: result
+    })
+})
+
 const FavoriteJobController = {
     addRemoveFavoriteJob,
-    getFavoriteJobs
+    getFavoriteJobs,
+    getFavoriteJobIdList
 }
 
 export default FavoriteJobController;

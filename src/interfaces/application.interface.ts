@@ -1,0 +1,12 @@
+import { Types } from "mongoose";
+
+export type TApplicationStatus = "applied" | "accepted" | "rejected" | "cancelled";
+export type TWorkStatus = "pending" | 'running' | 'stopped' | 'completed';
+
+export interface IApplication extends Document {
+  jobId: Types.ObjectId;
+  employerUserId: Types.ObjectId;
+  candidateUserId: Types.ObjectId;
+  status: TApplicationStatus;
+  workStatus: TWorkStatus;
+};
