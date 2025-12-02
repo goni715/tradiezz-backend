@@ -10,3 +10,14 @@ export interface IApplication extends Document {
   status: TApplicationStatus;
   workStatus: TWorkStatus;
 };
+
+
+export type TApplicationQuery = {
+  searchTerm?: string;
+  page?: string;
+  limit?: string;
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
+  status?: TApplicationStatus;
+  workStatus?: TWorkStatus;
+}
