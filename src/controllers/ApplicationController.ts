@@ -1,7 +1,10 @@
 import { APPLICATION_VALID_Fields } from "../constant/application.constant";
 import ApplyJobService from "../services/application/ApplyJobService";
+import DeleteApplicationService from "../services/application/DeleteApplicationService";
 import GetApplicationsService from "../services/application/GetApplicationsService";
+import GetAppliedJobIdsService from "../services/application/GetAppliedJobIdsService";
 import GetAppliedJobsService from "../services/application/GetAppliedJobsService";
+import UpdateApplicationService from "../services/application/UpdateApplicationService";
 import asyncHandler from "../utils/asyncHandler";
 import pickValidFields from "../utils/pickValidFields";
 
@@ -28,6 +31,15 @@ const getAppliedJobs = asyncHandler(async (req, res) => {
         data: result.data
     })
 })
+const getAppliedJobIds = asyncHandler(async (req, res) => {
+    const { userId } = req.headers;
+    const result = await GetAppliedJobIdsService(userId as string);
+    res.status(200).json({
+        success: true,
+        message: 'Applied job ids retrieved successfully',
+        data: result
+    })
+})
 
 const getApplications = asyncHandler(async (req, res) => {
     const { userId } = req.headers;
@@ -42,10 +54,35 @@ const getApplications = asyncHandler(async (req, res) => {
     })
 })
 
+const updateApplication = asyncHandler(async (req, res) => {
+    const { userId } = req.headers;
+    const { applicationId } = req.params;
+    const result = await UpdateApplicationService(userId as string, applicationId as string, req.body);
+    res.status(200).json({
+        success: true,
+        message: "Application is updated successfully",
+        data: result
+    })
+})
+
+const deleteApplication = asyncHandler(async (req, res) => {
+    const { userId } = req.headers;
+    const { applicationId } = req.params;
+    const result = await DeleteApplicationService(userId as string, applicationId as string);
+    res.status(200).json({
+        success: true,
+        message: "Application is deleted successfully",
+        data: result
+    })
+})
+
 const ApplicationController = {
     applyJob,
     getAppliedJobs,
-    getApplications
+    getAppliedJobIds,
+    getApplications,
+    updateApplication,
+    deleteApplication
 }
 
 export default ApplicationController;

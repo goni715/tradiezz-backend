@@ -3,7 +3,7 @@ import AuthMiddleware from "../middlewares/AuthMiddleware";
 import { UserRole } from "../constant/user.constant";
 import ApplicationController from "../controllers/ApplicationController";
 import validationMiddleware from "../middlewares/validationMiddleware";
-import { applyJobSchema } from "../validation/application.validation";
+import { applyJobSchema, updateApplicationSchema } from "../validation/application.validation";
 
 const router = express.Router();
 
@@ -19,9 +19,25 @@ router.get(
   ApplicationController.getAppliedJobs
 );
 router.get(
+  "/get-applied-job-ids",
+  AuthMiddleware(UserRole.candidate),
+  ApplicationController.getAppliedJobIds
+);
+router.get(
   "/get-applications/:jobId",
   AuthMiddleware(UserRole.employer),
   ApplicationController.getApplications
+);
+router.patch(
+  "/update-application/:applicationId",
+  AuthMiddleware(UserRole.employer),
+  validationMiddleware(updateApplicationSchema),
+  ApplicationController.updateApplication
+);
+router.delete(
+  "/delete-application/:applicationId",
+  AuthMiddleware(UserRole.employer),
+  ApplicationController.deleteApplication
 );
 
 

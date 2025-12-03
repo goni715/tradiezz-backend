@@ -92,7 +92,6 @@ const GetApplicationsService = async (loginEmployerUserId: string, jobId: string
         },
         {
             $project: {
-                _id: 0,
                 jobId: "$jobId",
                 title: "$job.title",
                 category: "$category.name",
