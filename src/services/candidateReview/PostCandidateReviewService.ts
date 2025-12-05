@@ -8,8 +8,10 @@ import CandidateModel from "../../models/CandidateModel";
 import JobModel from "../../models/Job.Model";
 
 
-const PostEmployerReviewService = async (loginEmployerUserId: string, payload: IEmployerReview) => {
+const PostCandidateReviewService = async (loginEmployerUserId: string, payload: IEmployerReview) => {
     const { jobId, candidateUserId } = payload;
+
+    return loginEmployerUserId;
 
     //check job
     const job = await JobModel.findById(jobId);
@@ -115,4 +117,4 @@ const PostEmployerReviewService = async (loginEmployerUserId: string, payload: I
     }
 }
 
-export default PostEmployerReviewService
+export default PostCandidateReviewService

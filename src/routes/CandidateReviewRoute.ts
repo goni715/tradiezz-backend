@@ -21,5 +21,5 @@ router.post(
 
 
 
-const EmployerReviewRoute = router;
-export default EmployerReviewRoute;
+const CandidateReviewRoute = router;
+export default CandidateReviewRoute;

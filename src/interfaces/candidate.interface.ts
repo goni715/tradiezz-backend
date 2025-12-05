@@ -15,6 +15,7 @@ export interface ICandidate extends Document {
     categoryId: Types.ObjectId;
     subCategoryId: Types.ObjectId;
     ratings: number;
+    totalReviews: number;
     workRate: TWorkRate;
     workType: TWorkType;
     availableDate: Date;

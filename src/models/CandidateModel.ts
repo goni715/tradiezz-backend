@@ -55,6 +55,10 @@ const candidateSchema = new Schema<ICandidate>({
         type: Number,
         default: 0
     },
+    totalReviews: {
+        type: Number,
+        default: 0
+    },
     workRate: {
         type: String,
         required: true,
