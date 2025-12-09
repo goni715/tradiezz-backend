@@ -29,6 +29,7 @@ const GetSingleJobService = async (jobId: string) => {
         },
         {
             $project: {
+                userId:1,
                 title: 1,
                 categoryId: "$categoryId",
                 "category": "$category.name",
