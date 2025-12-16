@@ -1,6 +1,6 @@
 import express from 'express';
 import AuthMiddleware from '../middlewares/AuthMiddleware';
-import { createFaqValidationSchema } from '../validation/faq.validation';
+import { createFaqValidationSchema, updateFaqValidationSchema } from '../validation/faq.validation';
 import validationMiddleware from '../middlewares/validationMiddleware';
 import FaqController from '../controllers/FaqController';
 
@@ -21,18 +21,17 @@ router.get(
   '/get-user-faqs',
   FaqController.getUserFaqs
 );
-// router.patch(
-//   '/update-faq/:faqId',
-//   AuthMiddleware("super_admin", "admin"),
-//   validationMiddleware(updateFaqValidationSchema),
-//   FaqController.updateFaq,
-// );
-
-// router.delete(
-//   '/delete-faq/:faqId',
-//   AuthMiddleware("super_admin", "admin"),
-//   FaqController.deleteFaq,
-// );
+router.patch(
+  '/update-faq/:faqId',
+  AuthMiddleware("superAdmin", "admin"),
+  validationMiddleware(updateFaqValidationSchema),
+  FaqController.updateFaq,
+);
+router.delete(
+  '/delete-faq/:faqId',
+  AuthMiddleware("superAdmin", "admin"),
+  FaqController.deleteFaq,
+);
 
 
 

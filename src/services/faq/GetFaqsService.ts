@@ -52,8 +52,6 @@ const GetFaqsService = async (query: TFaqQuery) => {
   ]);
 
 
-
-
   // total count
   const totalCountResult = await FaqModel.aggregate([
     {
