@@ -27,7 +27,9 @@ export interface ICandidate extends Document {
     address: string;
     skills: string[];
     experience: TExperience,
-    isPrivate: boolean
+    isPrivate: boolean,
+    description: string;
+    birthOfDate: Date;
 }
 
 
@@ -50,6 +52,8 @@ export interface IUpdateCandidatePayload {
     latitude: number;
     address: string;
     skills: string[];
-    experience: TExperience,
-    isPrivate: boolean
+    experience: TExperience;
+    isPrivate: boolean;
+    description: string;
+    birthOfDate: Date;
 }

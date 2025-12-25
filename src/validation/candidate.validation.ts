@@ -159,6 +159,37 @@ export const registerCandidateValidationSchema = z.object({
         .refine((val) => ['entry', 'mid', 'senior', 'expert'].includes(val), {
             message: "experience must be one of: 'entry', 'mid', 'senior', 'expert'",
         }),
+    birthOfDate: z
+        .string({
+            required_error: "birthOfDate is required",
+            invalid_type_error: "birthOfDate must be string value",
+        })
+        .trim()
+        .min(1, { message: "birthOfDate is required" })
+        .superRefine((date, ctx) => {
+            const formatRegex = /^20\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+
+            // 1️⃣ Validate format first
+            if (!formatRegex.test(date)) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: "birthOfDate must be 'YYYY-MM-DD' format",
+                });
+                return; // stop further checks
+            }
+            // 2️⃣ Parse date and check future
+            const inputDate = new Date(date + "T00:00:00"); // consistent local date
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            inputDate.setHours(0, 0, 0, 0);
+
+            if (inputDate > today) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: "birthOfDate must be old date",
+                });
+            }
+        }),
 });
 
 
@@ -339,6 +370,45 @@ export const updateCandidateSchema = z.object({
                 invalid_type_error: "isPrivate must be boolean value"
             })
         ).optional(),
+    description: z
+        .string({
+            invalid_type_error: "description must be string",
+            required_error: "description is required",
+        })
+        .trim()
+        .optional(),
+    birthOfDate: z
+        .string({
+            required_error: "birthOfDate is required",
+            invalid_type_error: "birthOfDate must be string value",
+        })
+        .trim()
+        .min(1, { message: "birthOfDate is required" })
+        .superRefine((date, ctx) => {
+            const formatRegex = /^20\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+
+            // 1️⃣ Validate format first
+            if (!formatRegex.test(date)) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: "birthOfDate must be 'YYYY-MM-DD' format",
+                });
+                return; // stop further checks
+            }
+            // 2️⃣ Parse date and check future
+            const inputDate = new Date(date + "T00:00:00"); // consistent local date
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            inputDate.setHours(0, 0, 0, 0);
+
+            if (inputDate > today) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: "birthOfDate must be old date",
+                });
+            }
+        })
+        .optional(),
 })
     .superRefine((values, ctx) => {
         const { longitude, latitude, address } = values;

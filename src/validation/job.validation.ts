@@ -226,7 +226,7 @@ export const createJobValidationSchema = z.object({
             required_error: "description is required",
         })
         .min(1, "description is required")
-        .trim(),
+        .trim()
 })
     .superRefine((values, ctx) => {
         const { startDate, endDate, minRange, maxRange } = values;

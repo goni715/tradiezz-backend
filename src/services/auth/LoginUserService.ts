@@ -19,7 +19,7 @@ const LoginUserService = async (payload: ILogin) => {
 
     //check email is not verified
     if (!user?.isVerified) {
-        throw new CustomError(403, "Please verify your email");
+        throw new CustomError(403, "Please verify your account");
     }
 
     //check user is blocked

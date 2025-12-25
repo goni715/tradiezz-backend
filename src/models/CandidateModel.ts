@@ -110,6 +110,14 @@ const candidateSchema = new Schema<ICandidate>({
         type: Boolean,
         default: false
     },
+    description: {
+        type: String,
+        default: ''
+    },
+    birthOfDate: {
+        type: Date,
+        required: true
+    }
 }, {
     timestamps: true,
     versionKey: false
