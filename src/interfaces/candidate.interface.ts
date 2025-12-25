@@ -29,7 +29,7 @@ export interface ICandidate extends Document {
     experience: TExperience,
     isPrivate: boolean,
     description: string;
-    birthOfDate: Date;
+    dateOfBirth: Date;
 }
 
 
@@ -55,5 +55,5 @@ export interface IUpdateCandidatePayload {
     experience: TExperience;
     isPrivate: boolean;
     description: string;
-    birthOfDate: Date;
+    dateOfBirth: Date;
 }

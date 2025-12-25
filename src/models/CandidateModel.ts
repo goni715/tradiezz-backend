@@ -114,7 +114,7 @@ const candidateSchema = new Schema<ICandidate>({
         type: String,
         default: ''
     },
-    birthOfDate: {
+    dateOfBirth: {
         type: Date,
         required: true
     }

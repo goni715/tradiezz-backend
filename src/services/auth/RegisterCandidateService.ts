@@ -10,7 +10,7 @@ import CandidateModel from "../../models/CandidateModel";
 
 
 const RegisterCandidateService = async (reqBody: IRegisterCandidatePayload) => {
-    const { email, fullName, phone, subCategoryId, password, workRate, workType, availableDate, employmentType, longitude, latitude, address, skills, experience, birthOfDate } = reqBody;
+    const { email, fullName, phone, subCategoryId, password, workRate, workType, availableDate, employmentType, longitude, latitude, address, skills, experience, dateOfBirth } = reqBody;
 
     //check email
     const existingUser = await UserModel.findOne({ email });
@@ -88,7 +88,7 @@ const RegisterCandidateService = async (reqBody: IRegisterCandidatePayload) => {
                     address,
                     skills,
                     experience,
-                    birthOfDate
+                    dateOfBirth
                 }
             ],
             { session }

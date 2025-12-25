@@ -63,7 +63,7 @@ const GetMyProfileService = async (userId: string, role: TUserRole) => {
                     totalReview: "$totalReviews",
                     isPrivate: "$isPrivate",
                     description: "$description",
-                    bartOfDate: "$birthOfDate"
+                    dateOfBirth: "$dateOfBirth"
                 }
             },
         ]);

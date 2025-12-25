@@ -67,7 +67,7 @@ const GetSingleCandidateService = async (candidateUserId: string) => {
                 employmentType: 1,
                 skills: 1,
                 experience: 1,
-                birthOfDate:1,
+                dateOfBirth:1,
                 category: "$category.name",
                 subCategory: "$subcategory.name",
                 address: "$address",

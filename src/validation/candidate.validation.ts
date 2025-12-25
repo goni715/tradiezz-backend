@@ -159,13 +159,13 @@ export const registerCandidateValidationSchema = z.object({
         .refine((val) => ['entry', 'mid', 'senior', 'expert'].includes(val), {
             message: "experience must be one of: 'entry', 'mid', 'senior', 'expert'",
         }),
-    birthOfDate: z
+    dateOfBirth: z
         .string({
-            required_error: "birthOfDate is required",
-            invalid_type_error: "birthOfDate must be string value",
+            required_error: "dateOfBirth is required",
+            invalid_type_error: "dateOfBirth must be string value",
         })
         .trim()
-        .min(1, { message: "birthOfDate is required" })
+        .min(1, { message: "dateOfBirth is required" })
         .superRefine((date, ctx) => {
             const formatRegex = /^20\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
 
@@ -173,7 +173,7 @@ export const registerCandidateValidationSchema = z.object({
             if (!formatRegex.test(date)) {
                 ctx.addIssue({
                     code: z.ZodIssueCode.custom,
-                    message: "birthOfDate must be 'YYYY-MM-DD' format",
+                    message: "dateOfBirth must be 'YYYY-MM-DD' format",
                 });
                 return; // stop further checks
             }
@@ -186,7 +186,7 @@ export const registerCandidateValidationSchema = z.object({
             if (inputDate > today) {
                 ctx.addIssue({
                     code: z.ZodIssueCode.custom,
-                    message: "birthOfDate must be old date",
+                    message: "dateOfBirth must be old date",
                 });
             }
         }),
@@ -377,13 +377,13 @@ export const updateCandidateSchema = z.object({
         })
         .trim()
         .optional(),
-    birthOfDate: z
+    dateOfBirth: z
         .string({
-            required_error: "birthOfDate is required",
-            invalid_type_error: "birthOfDate must be string value",
+            required_error: "dateOfBirth is required",
+            invalid_type_error: "dateOfBirth must be string value",
         })
         .trim()
-        .min(1, { message: "birthOfDate is required" })
+        .min(1, { message: "dateOfBirth is required" })
         .superRefine((date, ctx) => {
             const formatRegex = /^20\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
 
@@ -391,7 +391,7 @@ export const updateCandidateSchema = z.object({
             if (!formatRegex.test(date)) {
                 ctx.addIssue({
                     code: z.ZodIssueCode.custom,
-                    message: "birthOfDate must be 'YYYY-MM-DD' format",
+                    message: "dateOfBirth must be 'YYYY-MM-DD' format",
                 });
                 return; // stop further checks
             }
@@ -404,7 +404,7 @@ export const updateCandidateSchema = z.object({
             if (inputDate > today) {
                 ctx.addIssue({
                     code: z.ZodIssueCode.custom,
-                    message: "birthOfDate must be old date",
+                    message: "dateOfBirth must be old date",
                 });
             }
         })
