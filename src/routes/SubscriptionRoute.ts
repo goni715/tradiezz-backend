@@ -12,6 +12,11 @@ router.post(
   validationMiddleware(createSubscriptionSchema),
   SubscriptionController.createSubscription
 );
+router.get(
+  "/get-subscriptions",
+  AuthMiddleware(UserRole.superAdmin, UserRole.admin),
+  SubscriptionController.getSubscriptions
+);
 
 const SubscriptionRoute = router;
 export default SubscriptionRoute;

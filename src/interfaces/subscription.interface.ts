@@ -14,3 +14,13 @@ export interface ISubscription extends Document{
     description: string;
     status: TVisibility
 }
+
+export type TSubscriptionQuery = {
+    searchTerm?: string;
+    page?: string;
+    limit?: string;
+    sortBy?: string;
+    sortOrder?: "asc" | "desc";
+    status?: string;
+    validity?: string,
+}

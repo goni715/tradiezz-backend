@@ -1,5 +1,8 @@
+import { SUBSCRIPTION_VALID_FIELDS } from "../constant/subscription.constant";
 import CreateSubscriptionService from "../services/subscription/CreateSubscriptionService";
+import GetSubscriptionsService from "../services/subscription/GetSubscriptionsService";
 import asyncHandler from "../utils/asyncHandler";
+import pickValidFields from "../utils/pickValidFields";
 
 
 
@@ -12,9 +15,20 @@ const createSubscription = asyncHandler(async (req, res) => {
     })
 })
 
+const getSubscriptions = asyncHandler(async (req, res) => {
+    const validatedQuery = pickValidFields(req.query, SUBSCRIPTION_VALID_FIELDS);
+    const result = await GetSubscriptionsService(validatedQuery);
+    res.status(200).json({
+        success: true,
+        message: "Subscriptions are retrieved successfully",
+        // meta: result.meta,
+        data: result
+    })
+})
 
 const SubscriptionController = {
-    createSubscription
+    createSubscription,
+    getSubscriptions
 }
 
 export default SubscriptionController;
