@@ -16,7 +16,7 @@ const sendRequestEmail = async (
   });
 
   const mailOptions = {
-    from: `Tradieez Service ${config.smtp_from}`,
+    from: `Tradieez ${config.smtp_from}`,
     to: email,
     subject: "Profile Access Request – Action Required",
     html: `
@@ -25,7 +25,7 @@ const sendRequestEmail = async (
       <!-- Header -->
       <div style="background-color: #1f2937; padding: 40px 20px; text-align: center; border-radius: 12px 12px 0 0;">
         <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 700;">
-          Tradieez Service
+          Tradieez
         </h1>
         <p style="color: #9ca3af; margin: 8px 0 0 0; font-size: 16px;">
           Profile Visibility Notice

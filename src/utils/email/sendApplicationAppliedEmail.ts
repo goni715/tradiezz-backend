@@ -18,7 +18,7 @@ const sendApplicationAppliedEmail = async (
   });
 
   const mailOptions = {
-    from: `Tradieez Service ${config.smtp_from}`,
+    from: `Tradieez ${config.smtp_from}`,
     to: employerEmail,
     subject: `New Application Received – ${jobTitle}`,
     html: `
